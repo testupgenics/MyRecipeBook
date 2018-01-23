@@ -1,9 +1,5 @@
 <resources>
     <string name="app_name">Recipe Book</string>
-
-    <string name="app_id">ca-app-pub-2963730982882653~9972533143</string>
-    <string name="banner_id">ca-app-pub-2963730982882653/1119749093</string>
-    <string name="interstitial_id">ca-app-pub-2963730982882653/2536772549</string>
     <string name="description">Please Search Your Food Item. Click On Recipe To Open It In Full Screen</string>
 
 </resources>

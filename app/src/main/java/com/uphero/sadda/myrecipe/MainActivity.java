@@ -8,7 +8,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -28,7 +27,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 
 import org.json.JSONArray;
@@ -37,8 +35,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import pub.devrel.easypermissions.EasyPermissions;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -52,19 +48,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        MobileAds.initialize(this, String.valueOf(R.string.app_id));
-        AdView mAdView = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
-
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                requestPermissions(new String[]{Manifest.permission.INTERNET},1);
+                requestPermissions(new String[]{Manifest.permission.INTERNET}, 1);
             }
         }
-        if (ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_NETWORK_STATE) !=PackageManager.PERMISSION_GRANTED){
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                requestPermissions(new String[]{Manifest.permission.ACCESS_NETWORK_STATE},2);
+                requestPermissions(new String[]{Manifest.permission.ACCESS_NETWORK_STATE}, 2);
             }
         }
 
@@ -82,30 +73,30 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu,menu);
+        inflater.inflate(R.menu.menu, menu);
 
         final MenuItem searchBar = menu.findItem(R.id.menuSearch);
 
-        searchView = (SearchView)searchBar.getActionView();
+        searchView = (SearchView) searchBar.getActionView();
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
 
                 progressDialog.show();
-                if (isNetworkAvailable()){
+                if (isNetworkAvailable()) {
                     tvDesc.setVisibility(View.INVISIBLE);
                     searchResultList.setVisibility(View.INVISIBLE);
                     RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
-                    query = query.replaceAll("\\s+","%20");
+                    query = query.replaceAll("\\s+", "%20");
 
                     //converting first letter to upper case
                     String temp = query.substring(0, 1).toUpperCase() + query.substring(1);
-                    final String actionBarTitle = temp.replaceAll("%20","\\ ");
+                    final String actionBarTitle = temp.replaceAll("%20", "\\ ");
                     String API_URL = "http://www.recipepuppy.com/api/?q=";
                     String jsonURL = API_URL + query;
 
-                    JsonObjectRequest objectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET ,jsonURL,null,new Response.Listener<JSONObject>() {
+                    JsonObjectRequest objectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, jsonURL, null, new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
                             try {
@@ -114,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 JSONArray jsonArray = response.getJSONArray("results");
 
-                                if (jsonArray.length()>0){
+                                if (jsonArray.length() > 0) {
                                     for (int i = 0; i < jsonArray.length(); i++) {
 
                                         JSONObject childJSONObject = jsonArray.getJSONObject(i);
@@ -129,15 +120,14 @@ public class MainActivity extends AppCompatActivity {
 
                                         recipeModelList.add(recipeModel);
 
-                                        RecipeListAdapter recipeListAdapter = new RecipeListAdapter(MainActivity.this,recipeModelList);
+                                        RecipeListAdapter recipeListAdapter = new RecipeListAdapter(MainActivity.this, recipeModelList);
                                         searchResultList.setAdapter(recipeListAdapter);
                                         searchResultList.setVisibility(View.VISIBLE);
-                                        getSupportActionBar().setTitle(actionBarTitle+ " Recipes");
+                                        getSupportActionBar().setTitle(actionBarTitle + " Recipes");
                                         searchView.setIconified(true);
                                         progressDialog.dismiss();
                                     }
-                                }
-                                else {
+                                } else {
                                     tvDesc.setVisibility(View.VISIBLE);
                                     tvDesc.setText("No Recipe Found");
                                     progressDialog.dismiss();
@@ -151,14 +141,13 @@ public class MainActivity extends AppCompatActivity {
                     }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            Toast.makeText(MainActivity.this,error.toString(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
                             progressDialog.dismiss();
                         }
                     });
                     requestQueue.add(objectRequest);
-                }
-                else {
-                    Toast.makeText(MainActivity.this,"Internet is required!",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(MainActivity.this, "Internet is required!", Toast.LENGTH_SHORT).show();
                     progressDialog.dismiss();
 
                 }
@@ -173,13 +162,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         return super.onCreateOptionsMenu(menu);
-
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
 
     }
 

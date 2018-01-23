@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,13 +39,26 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView searchResultList;
     TextView tvDesc;
     SearchView searchView = null;
-    ProgressDialog progressDialog;
+    private ProgressBar progressBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        requestPermissions();
+        initViews();
+    }
+
+    private void initViews(){
+        progressBar = findViewById(R.id.progressBar);
+        searchResultList = findViewById(R.id.listView);
+        tvDesc = findViewById(R.id.tvDesc);
+        searchResultList.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    private void requestPermissions(){
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 requestPermissions(new String[]{Manifest.permission.INTERNET}, 1);
@@ -55,16 +69,6 @@ public class MainActivity extends AppCompatActivity {
                 requestPermissions(new String[]{Manifest.permission.ACCESS_NETWORK_STATE}, 2);
             }
         }
-
-        searchResultList = findViewById(R.id.listView);
-        tvDesc = findViewById(R.id.tvDesc);
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Searching");
-        progressDialog.setCancelable(false);
-
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
-        searchResultList.setLayoutManager(mLayoutManager);
-
     }
 
     @Override
@@ -79,15 +83,13 @@ public class MainActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-
-                progressDialog.show();
+                progressBar.setVisibility(View.VISIBLE);
                 if (isNetworkAvailable()) {
                     tvDesc.setVisibility(View.INVISIBLE);
                     searchResultList.setVisibility(View.INVISIBLE);
                     RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
                     query = query.replaceAll("\\s+", "%20");
 
-                    //converting first letter to upper case
                     String temp = query.substring(0, 1).toUpperCase() + query.substring(1);
                     final String actionBarTitle = temp.replaceAll("%20", "\\ ");
                     String API_URL = "http://www.recipepuppy.com/api/?q=";
@@ -122,12 +124,12 @@ public class MainActivity extends AppCompatActivity {
                                         searchResultList.setVisibility(View.VISIBLE);
                                         getSupportActionBar().setTitle(actionBarTitle + " Recipes");
                                         searchView.setIconified(true);
-                                        progressDialog.dismiss();
+                                        progressBar.setVisibility(View.GONE);
                                     }
                                 } else {
                                     tvDesc.setVisibility(View.VISIBLE);
                                     tvDesc.setText("No Recipe Found");
-                                    progressDialog.dismiss();
+                                   progressBar.setVisibility(View.GONE);
 
                                 }
 
@@ -139,13 +141,14 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             Toast.makeText(MainActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
-                            progressDialog.dismiss();
+                            progressBar.setVisibility(View.GONE);
+
                         }
                     });
                     requestQueue.add(objectRequest);
                 } else {
                     Toast.makeText(MainActivity.this, "Internet is required!", Toast.LENGTH_SHORT).show();
-                    progressDialog.dismiss();
+                    progressBar.setVisibility(View.GONE);
 
                 }
 

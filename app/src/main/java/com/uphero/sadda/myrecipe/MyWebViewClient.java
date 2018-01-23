@@ -4,10 +4,6 @@ import android.app.ProgressDialog;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-/**
- * Created by Sadda on 10-Nov-17.
- */
-
 public class MyWebViewClient extends WebViewClient {
     private ProgressDialog progressDialog;
 

@@ -1,7 +1,6 @@
 package com.uphero.sadda.myrecipe;
 
 import android.Manifest;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
@@ -47,18 +46,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        requestPermissions();
         initViews();
+        requestPermissions();
     }
 
-    private void initViews(){
+    private void initViews() {
         progressBar = findViewById(R.id.progressBar);
         searchResultList = findViewById(R.id.listView);
         tvDesc = findViewById(R.id.tvDesc);
         searchResultList.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    private void requestPermissions(){
+    private void requestPermissions() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 requestPermissions(new String[]{Manifest.permission.INTERNET}, 1);
@@ -129,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
                                 } else {
                                     tvDesc.setVisibility(View.VISIBLE);
                                     tvDesc.setText("No Recipe Found");
-                                   progressBar.setVisibility(View.GONE);
+                                    progressBar.setVisibility(View.GONE);
 
                                 }
 

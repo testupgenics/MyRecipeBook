@@ -17,8 +17,8 @@ import android.widget.Toast
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.google.android.gms.ads.*
 import org.json.JSONException
-import pk.encodersolutions.myrecipebook.myrecipe.R
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var tvDesc: TextView
     private var searchView: SearchView? = null
     private var progressBar: ProgressBar? = null
+    private lateinit var mInterstitialAd : InterstitialAd
 
     private val isNetworkAvailable: Boolean
         get() {
@@ -40,8 +41,20 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        initAds()
         initViews()
         requestPermissions()
+
+    }
+
+    private fun initAds() {
+        MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713")
+        mInterstitialAd = InterstitialAd(this)
+        mInterstitialAd.adUnitId = "ca-app-pub-3940256099942544/1033173712"
+        mInterstitialAd.loadAd(AdRequest.Builder().build())
+        val mAdView: AdView = findViewById(R.id.adView)
+        val adRequest = AdRequest.Builder().build()
+        mAdView.loadAd(adRequest)
     }
 
     private fun initViews() {
@@ -111,6 +124,8 @@ class MainActivity : AppCompatActivity() {
                                     supportActionBar!!.setTitle(actionBarTitle + " Recipes")
                                     searchView!!.isIconified = true
                                     progressBar!!.visibility = View.GONE
+
+                                    showInterstitialAd()
                                 }
                             } else {
                                 tvDesc.visibility = View.VISIBLE
@@ -143,5 +158,16 @@ class MainActivity : AppCompatActivity() {
 
         return super.onCreateOptionsMenu(menu)
 
+    }
+
+    private fun showInterstitialAd(){
+        if (mInterstitialAd.isLoaded) {
+            mInterstitialAd.show()
+        }
+    }
+
+    override fun onBackPressed() {
+        showInterstitialAd()
+        super.onBackPressed()
     }
 }

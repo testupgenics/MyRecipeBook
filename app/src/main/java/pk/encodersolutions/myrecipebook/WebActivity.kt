@@ -4,7 +4,6 @@ import android.app.ProgressDialog
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.webkit.WebView
-import pk.encodersolutions.myrecipebook.myrecipe.R
 
 class WebActivity : AppCompatActivity() {
 

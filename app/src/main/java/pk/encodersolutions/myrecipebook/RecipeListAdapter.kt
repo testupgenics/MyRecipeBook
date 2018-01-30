@@ -9,9 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-
 import com.squareup.picasso.Picasso
-import pk.encodersolutions.myrecipebook.myrecipe.R
 
 class RecipeListAdapter internal constructor(private val referenceOfActivity: Context, private val recipeModels: List<RecipeModel>) : RecyclerView.Adapter<RecipeListAdapter.MyViewHolder>() {
 

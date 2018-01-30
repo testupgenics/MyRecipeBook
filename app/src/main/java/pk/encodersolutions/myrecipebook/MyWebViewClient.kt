@@ -1,4 +1,4 @@
-package com.uphero.sadda.myrecipe
+package pk.encodersolutions.myrecipebook
 
 import android.app.ProgressDialog
 import android.webkit.WebView

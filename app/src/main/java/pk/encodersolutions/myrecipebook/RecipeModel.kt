@@ -1,8 +1,4 @@
-package com.uphero.sadda.myrecipe
-
-/**
- * Created by Sadda on 1/12/2017.
- */
+package pk.encodersolutions.myrecipebook
 
 class RecipeModel {
 

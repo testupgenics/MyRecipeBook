@@ -1,9 +1,8 @@
-package com.uphero.sadda.myrecipe
+package pk.encodersolutions.myrecipebook
 
 import android.Manifest
 import android.content.Context
 import android.net.ConnectivityManager
-import android.net.NetworkInfo
 import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -11,24 +10,16 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
 import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
-
-import com.android.volley.RequestQueue
 import com.android.volley.Response
-import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
-
-import org.json.JSONArray
 import org.json.JSONException
-import org.json.JSONObject
-
-import java.util.ArrayList
+import pk.encodersolutions.myrecipebook.myrecipe.R
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 

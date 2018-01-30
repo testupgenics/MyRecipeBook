@@ -1,4 +1,4 @@
-package com.uphero.sadda.myrecipe
+package pk.encodersolutions.myrecipebook
 
 import android.content.Context
 import android.content.Intent
@@ -11,6 +11,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 
 import com.squareup.picasso.Picasso
+import pk.encodersolutions.myrecipebook.myrecipe.R
 
 class RecipeListAdapter internal constructor(private val referenceOfActivity: Context, private val recipeModels: List<RecipeModel>) : RecyclerView.Adapter<RecipeListAdapter.MyViewHolder>() {
 

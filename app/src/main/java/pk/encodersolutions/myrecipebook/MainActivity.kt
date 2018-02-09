@@ -48,9 +48,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initAds() {
-        MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713")
+        MobileAds.initialize(this, "ca-app-pub-6728394946634137~1410796976")
         mInterstitialAd = InterstitialAd(this)
-        mInterstitialAd.adUnitId = "ca-app-pub-3940256099942544/1033173712"
+        mInterstitialAd.adUnitId = "ca-app-pub-6728394946634137/6019415380"
         mInterstitialAd.loadAd(AdRequest.Builder().build())
         val mAdView: AdView = findViewById(R.id.adView)
         val adRequest = AdRequest.Builder().build()

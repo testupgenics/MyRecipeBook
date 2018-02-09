@@ -2,6 +2,7 @@ package pk.encodersolutions.myrecipebook
 
 import android.content.Context
 import android.content.Intent
+import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -34,7 +35,7 @@ class RecipeListAdapter internal constructor(private val referenceOfActivity: Co
             Picasso.with(referenceOfActivity).load(recipeModels[position].poster).into(holder.Poster)
         }
 
-        holder.linearLayout.setOnClickListener {
+        holder.rootView.setOnClickListener {
             val i = Intent(referenceOfActivity, WebActivity::class.java)
             i.putExtra("URL", recipeModels[position].url)
             referenceOfActivity.startActivity(i)
@@ -59,14 +60,14 @@ class RecipeListAdapter internal constructor(private val referenceOfActivity: Co
         var Ingredients: TextView
         var Url: TextView
         var Poster: ImageView
-        var linearLayout: LinearLayout
+        var rootView: LinearLayout
 
         init {
             Title = itemView.findViewById(R.id.title)
             Ingredients = itemView.findViewById(R.id.ingredients)
             Url = itemView.findViewById(R.id.url)
             Poster = itemView.findViewById(R.id.poster)
-            linearLayout = itemView.findViewById(R.id.linearLayout)
+            rootView = itemView.findViewById(R.id.linearLayout)
         }
     }
 }

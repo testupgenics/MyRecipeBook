@@ -17,7 +17,6 @@ import android.widget.Toast
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
-import com.google.android.gms.ads.*
 import org.json.JSONException
 import java.util.*
 
@@ -27,7 +26,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var tvDesc: TextView
     private var searchView: SearchView? = null
     private var progressBar: ProgressBar? = null
-    private lateinit var mInterstitialAd : InterstitialAd
 
     private val isNetworkAvailable: Boolean
         get() {
@@ -41,20 +39,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        initAds()
         initViews()
         requestPermissions()
 
-    }
-
-    private fun initAds() {
-        MobileAds.initialize(this, "ca-app-pub-6728394946634137~1410796976")
-        mInterstitialAd = InterstitialAd(this)
-        mInterstitialAd.adUnitId = "ca-app-pub-6728394946634137/6019415380"
-        mInterstitialAd.loadAd(AdRequest.Builder().build())
-        val mAdView: AdView = findViewById(R.id.adView)
-        val adRequest = AdRequest.Builder().build()
-        mAdView.loadAd(adRequest)
     }
 
     private fun initViews() {
@@ -125,7 +112,6 @@ class MainActivity : AppCompatActivity() {
                                     searchView!!.isIconified = true
                                     progressBar!!.visibility = View.GONE
 
-                                    showInterstitialAd()
                                 }
                             } else {
                                 tvDesc.visibility = View.VISIBLE
@@ -160,14 +146,8 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun showInterstitialAd(){
-        if (mInterstitialAd.isLoaded) {
-            mInterstitialAd.show()
-        }
-    }
 
     override fun onBackPressed() {
-        showInterstitialAd()
         super.onBackPressed()
     }
 }
